@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
-import SingleReddit from './SingleReddit';
+import SingleReddit from '../SingleReddit/SingleReddit';
 
 const redditURL = 'https://api.reddit.com/r/pics/new.json';
 
@@ -60,16 +60,18 @@ export default class RedditList extends React.Component {
     }         
 
     return (
-      <FlatList
-        data = { dataSource.data.children }
-        renderItem = {({ item }) => 
-          <SingleReddit 
-            item = { item } 
-          />}
-        keyExtractor = {(item) => item.data.id}        
-        refreshing = { refreshing }
-        onRefresh = { this.updateList }
-      />
+      <View>
+        <FlatList           
+          data = { dataSource.data.children }
+          renderItem = {({ item }) => 
+            <SingleReddit 
+              item = { item } 
+            />}
+          keyExtractor = {(item) => item.data.id}        
+          refreshing = { refreshing }
+          onRefresh = { this.updateList }
+        />
+      </View>
     )
   }
 }
