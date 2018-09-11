@@ -17,11 +17,9 @@ export default class SingleReddit extends React.Component {
       <TouchableHighlight onPress = {() => Linking.openURL(url)}>
         <View style = { styles.mainContainer }>
           <Image source = {{ uri: redditImage }} style = { styles.image }/>
-          <View style = { styles.redditContainer } >
-            <Text style = { styles.dateAgo } > submitted { dateAgo } </Text>
-            <Text style = { styles.title }>
-              {item.data.title}
-            </Text>
+          <View style = { styles.redditContainer }>
+            <Text style = { styles.dateAgo } > submitted { dateAgo }</Text>
+            <Text style = { styles.title }> {item.data.title}</Text>
             <View style = { styles.redditInfo }>  
               <Text>by { item.data.author }</Text>
               <Text>Score: { item.data.score }</Text>

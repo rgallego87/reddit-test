@@ -22,7 +22,8 @@ export default StyleSheet.create({
   },
   redditInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flexWrap: 'wrap'
   },     
   image: {
     width: 100, 
