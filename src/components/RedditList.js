@@ -8,12 +8,17 @@ export default class RedditList extends React.Component {
 
   state = {
     loading: true,
-    dataSource: []
+    dataSource: [],
+    refreshing: false
   }
 
   async componentDidMount() {
     await this.makeRemoteRequest();
   }
+  
+  componentDidUpdate() {
+    return !this.state.refreshing;
+  }  
 
   async makeRemoteRequest() {     
     try { 
@@ -21,14 +26,23 @@ export default class RedditList extends React.Component {
       const data = await urlFetched.json();
       
       this.setState({
-        loading: false,
-        dataSource: data
+        dataSource: data,
+        refreshing: false,
+        loading: false
       })
 
     } catch(error) {      
-      this.setState({ error, loading: false });
+      this.setState({ error, loading: false, refreshing: false });
     }    
   };
+
+  updateList = () => {
+    this.setState({
+      refreshing: true
+    }, () => {
+      this.makeRemoteRequest();
+    })    
+  }
 
   renderLoadingView() {
     return(
@@ -39,7 +53,7 @@ export default class RedditList extends React.Component {
   }
 
   render() {
-    const { loading, dataSource } = this.state;    
+    const { loading, dataSource, refreshing } = this.state;    
 
     if (loading) {            
       return this.renderLoadingView(); 
@@ -48,10 +62,14 @@ export default class RedditList extends React.Component {
     return (
       <FlatList
         data = { dataSource.data.children }
-        renderItem = {({ item }) => <SingleReddit item = { item } />}
+        renderItem = {({ item }) => 
+          <SingleReddit 
+            item = { item } 
+          />}
         keyExtractor = {(item) => item.data.id}        
+        refreshing = { refreshing }
+        onRefresh = { this.updateList }
       />
     )
   }
-
 }
