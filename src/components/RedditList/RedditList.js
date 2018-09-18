@@ -1,10 +1,15 @@
 import React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, TouchableHighlight } from 'react-native';
 import SingleReddit from '../SingleReddit/SingleReddit';
 
-const redditURL = 'https://api.reddit.com/r/pics/new.json';
+const baseURL = 'https://reddit.com';
+const redditURL = 'https://api.reddit.com/r/pics/new.json';  
 
 export default class RedditList extends React.Component {
+
+  static navigationOptions = {
+    header: null
+  }
 
   state = {
     loading: true,
@@ -53,8 +58,8 @@ export default class RedditList extends React.Component {
   }
 
   render() {
-    const { loading, dataSource, refreshing } = this.state;    
-
+    const { loading, dataSource, refreshing } = this.state;              
+    
     if (loading) {            
       return this.renderLoadingView(); 
     }         
@@ -63,10 +68,13 @@ export default class RedditList extends React.Component {
       <View>
         <FlatList           
           data = { dataSource.data.children }
-          renderItem = {({ item }) => 
-            <SingleReddit 
-              item = { item } 
-            />}
+          renderItem = {({ item }) =>
+            <TouchableHighlight onPress = { () => this.props.navigation.navigate('RedditDetail', { url: baseURL + item.data.permalink }) } title="RedditDetail" > 
+              <SingleReddit 
+                item = { item } 
+              />
+            </TouchableHighlight>
+            }
           keyExtractor = {(item) => item.data.id}        
           refreshing = { refreshing }
           onRefresh = { this.updateList }

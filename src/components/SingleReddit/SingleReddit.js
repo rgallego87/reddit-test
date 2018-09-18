@@ -1,20 +1,16 @@
 import React from 'react';
-import { Text, View, Image, Linking, TouchableHighlight } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import Moment from 'moment';
 import styles from './styles';
 
-const baseURL = 'https://reddit.com';
-
 export default class SingleReddit extends React.Component {
-  
+
   render() {
-    const { item } = this.props;
-    const url = baseURL + item.data.permalink;    
+    const { item } = this.props;    
     const dateAgo = Moment(item.data.created_utc * 1000).fromNow();
-    const redditImage = item.data.thumbnail;     
+    const redditImage = item.data.thumbnail;      
     
-    return (
-      <TouchableHighlight onPress = {() => Linking.openURL(url)}>
+    return (      
         <View style = { styles.mainContainer }>
           <Image source = {{ uri: redditImage }} style = { styles.image }/>
           <View style = { styles.redditContainer }>
@@ -26,8 +22,7 @@ export default class SingleReddit extends React.Component {
               <Text>Comments: { item.data.num_comments }</Text>
             </View>            
           </View>
-        </View>
-      </TouchableHighlight>            
+        </View>             
     )
   }  
 }
